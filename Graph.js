@@ -42,14 +42,34 @@ breadthFirstSearch(){
     }
 };
 
-hasPath( src , dst){
-    
+// using BFS technique
+hasPath(src, dst){
+    const queue = [src];
 
-    
+    while(queue.length > 0){
+        const current = queue.shift();
+        if(current === dst) return true;
+        for(let neighbor of this.#graph[current]){
+            queue.push(neighbor);
+        }
+    return false;
+}
+};
+//Recursive DFS
+hasPathRecursive(src, dst){
+
+    if(src === dst){ return true;}
+
+    for(let neighbor of this.graph[src]){
+        if(hasPathRecursive(neighbor, dst) === true){ return true;}
+    }
+    return false;
+};
 
 
 
- };
+
+
 
 }// end of class
 

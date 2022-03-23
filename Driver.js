@@ -10,24 +10,24 @@ const data = {
 };
 
 const s_data = {
-    f : [g,i],
-    g : [h],
+    f : ['g','i'],
+    g : ['h'],
     h : [],
-    i : [g,k],
-    j : [i],
+    i : ['g','k'],
+    j : ['i'],
     k : [] 
 };
 
 
-let graph =  new Graph(data, 'a');
+// let graph =  new Graph(data, 'a');
+
+// graph.depthFirstSearch();
+
+// console.log(">>>>>>>>>>>>>>>>>>>");
+// graph.breadthFirstSearch();
+
 let s_graph = new Graph(s_data, 'f');
-graph.depthFirstSearch();
-
-console.log(">>>>>>>>>>>>>>>>>>>");
-graph.breadthFirstSearch();
-
-
-
+console.log(s_graph.hasPath('f', 'h'));
 
 
 
