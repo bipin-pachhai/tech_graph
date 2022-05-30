@@ -18,6 +18,18 @@ const s_data = {
     k : [] 
 };
 
+//undirected and cyclic data
+const cyclic = {
+    i :['j', 'k'],
+    j : ['i' ,'k'],
+    k : ['i','j', 'm', 'l'],
+    m : ['k'],
+    l : ['k'],
+    o : ['n'],
+    n : ['o'],
+    
+}; 
+  
 
 // let graph =  new Graph(data, 'a');
 
@@ -28,6 +40,10 @@ const s_data = {
 
 let s_graph = new Graph(s_data, 'f');
 console.log(s_graph.hasPath('f', 'h'));
+
+let cyclic_graph = new Graph(cyclic, 'i');
+console.log(cyclic_graph.undirectedPathExists('o', 'n'));
+
 
 
 
