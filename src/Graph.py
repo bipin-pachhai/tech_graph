@@ -7,6 +7,36 @@ class Graph:
         self.adj[u].append(v)
         self.adj[v].append(u)
 
+
+        
+    def convert_adjmatrix(self, a):
+        adjList = defaultdict(list)
+        for i in range(len(a)):
+            for j in range(len(a[i])):
+                            if a[i][j]== 1:
+                                adjList[i].append(j)
+        return adjList
+    
+    def validPath(self, n, edges, source, destination):
+        """
+        :type n: int
+        :type edges: List[List[int]]
+        :type source: int
+        :type destination: int
+        :rtype: bool
+        """
+        graph = self.convert_adjmatrix(edges)
+        queue = [source]
+        
+        while(len(queue) !=0 ):
+            source = queue.pop(0)
+            for neighbor in graph[source]:
+                if(neighbor == destination):
+                    return True
+                queue.append(neighbor)
+        
+        return False
+
     def dfs_util(self,vertex,visited):
         if(str(vertex) in visited):
             return False
