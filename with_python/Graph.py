@@ -1,5 +1,6 @@
 from collections import defaultdict
 class Graph:
+
     def __init__(self):
         self.adj = defaultdict(list)
         
@@ -17,7 +18,7 @@ class Graph:
     def bfs(self, edges):
         # TO DO
         pass
-    #check if there is path
+    #______________________________________________________________check if there is path
     def validPath(self, n, edges, source, destination):
         graph = self.convert_adjmatrix(edges)
         queue = [source]
@@ -30,7 +31,7 @@ class Graph:
                 queue.append(neighbor)
         
         return False
-   # To count the number of connected components
+   #____________________________________________________________ To count the number of connected components
     def dfs_util(self,vertex,visited):
         if(str(vertex) in visited):
             return False
@@ -50,7 +51,7 @@ class Graph:
                     ct+=1
         return ct
 
-   # To return the size of largest component in the graph
+   #_________________________________________________ To return the size of largest component in the graph
     def explore(self, src, visited):
         if(src in visited):
             return 0
@@ -69,8 +70,8 @@ class Graph:
                 largest_size = component_size
         
         return largest_size
-
-    def numIslands(self, grid: List[List[str]]) -> int:
+#_________________________________________________________Number of ISLANDS________________________________________________
+    def numIslands(self, grid) -> int:
         visited = set()
         count_island = 0
         row_limit = len(grid) -1
@@ -88,8 +89,7 @@ class Graph:
         if(i< 0 or j <0 or i > row_limit or j > col_limit):
             return False
         if( grid[i][j] == "0"):
-            return False
-        
+            return False 
         visited.add(str(i)+","+str(j))
         #explore up
         self.explore_islands(grid, i-1 , j, visited, row_limit, col_limit)
@@ -102,8 +102,59 @@ class Graph:
         
         return True
         
-        
 
+#________________________________________________Pacific atlantic Water Flow__________________________________ 
+    def pacificAtlantic(self, heights):
+        
+        ROWS = len(heights)
+        COLS = len(heights[0])
+        return_list = []
+        if(ROWS == 0):
+            return return_list
+        
+        pacific, atlantic = set(), set()
+        '''The logic is::: if we look in the grid, upper side is all pacific and lower edge is all atlantic. So, if we start dfs from up to down, we can check
+           for pacific keeping track of prev height and them to the pacific set. Similarly, if we start from down to up, we can check for the ATLANTIC waterflow keeping
+           track of prev height. We might not be able to include all the coordinates in this exploration of both atlantic and pacific. SO, we also know leftmost edge is all pacific
+           and rightmost edge is all atlantic. So if we start dfs exploration for leftmost and rightmost egde, we can include other possible flow horizontally.
+           if the coordinate is already include in pacific or atlantic set, we don't need exploration from that point, cause it's all included. At the end, we return the common
+           coordinated from both pacific and atlantic set.
+        '''
+        for col in range(0, COLS):
+            #explore for pacific
+            self.ocean_grid(0, col, heights[0][col], pacific, ROWS,COLS, heights)
+            #explore for atlantic
+            self.ocean_grid(ROWS-1, col, heights[ROWS-1][col], atlantic, ROWS,COLS, heights)
+            
+        for row in range(0, ROWS):
+            #explore for pacific
+            self.ocean_grid(row, 0, heights[row][0], pacific, ROWS,COLS, heights)
+            self.ocean_grid(row,COLS-1, heights[row][COLS-1], atlantic, ROWS,COLS,heights)
+            
+        for cor in pacific:           
+                if cor in atlantic:
+                    return_list.append([cor[0],cor[1]])
+        
+        return return_list
+            
+             
+    def ocean_grid(self, row, col, prevHeig, ocean, ROWS,COLS, heights):
+        if((row, col) in ocean):
+            return
+        if(row >= ROWS or col >= COLS or row < 0 or col <0):
+            return
+        if(prevHeig> heights[row][col]):
+            return
+        
+        ocean.add((row, col))
+        prevHeig = heights[row][col]
+        
+        self.ocean_grid(row-1, col, prevHeig, ocean, ROWS,COLS, heights)    
+        self.ocean_grid(row+1, col, prevHeig, ocean, ROWS,COLS, heights)
+        self.ocean_grid(row, col+1, prevHeig, ocean, ROWS,COLS, heights)
+        self.ocean_grid(row, col-1, prevHeig, ocean, ROWS,COLS, heights)
+       
+#_________________________________________________________________________________________________________
 if __name__ == '__main__':
     v,e = map(int,input().split())
     g = Graph()
