@@ -2,6 +2,8 @@ import sys
 from heapq import heappush, heappop
 from collections import defaultdict
 
+
+# Dijkstra's algorithm implemented
 def shortest_path(n, edges,s):
     graph = defaultdict(list)
     for(u, v), w in edges.items():
